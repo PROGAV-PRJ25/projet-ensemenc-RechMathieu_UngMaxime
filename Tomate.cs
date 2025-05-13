@@ -25,6 +25,9 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                   esperanceDeVie: 6.0,
                   productionMax: 8
                   )
+            {
+
+            }
         
         public override void Pousser(double tauxConditionsFavorables)
         {
@@ -48,7 +51,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             if (MaladiesPotentielles.Count > 0)
             {
                 double prob = rng.NextDouble();
-                if (prob < 0.2)
+                if (prob < 0.2) // 1 chance sur 5 d'attraper une maladie -> on fera surement évolué le fonctionnement
                 {
                     string maladieAttrapee = MaladiesPotentielles[rng.Next(MaladiesPotentielles.Count)];
                     Console.WriteLine($"La tomate a attrapé : {maladieAttrapee} !");
