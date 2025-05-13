@@ -22,6 +22,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         private List<string> maladiesPotentielles;
         private double esperanceDeVie; // en semaine
         private int productionMax; // Nombre maximal de produits (fruits, légumes, etc.)
+        private double taille; // en cm
 
         // --- PROPRIÉTÉS PUBLIQUES ---
         public string Nom { get => nom; }
@@ -38,6 +39,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         public List<string> MaladiesPotentielles { get => maladiesPotentielles; }
         public double EsperanceDeVie { get => esperanceDeVie; }
         public int ProductionMax { get => productionMax; }
+        public double Taille { get; private set; }
 
         // --- CONSTRUCTEUR ---
         public Plante(string nom, bool estVivace, bool estComestible, List<string> saisonsSemis,
@@ -60,6 +62,8 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             this.maladiesPotentielles = maladiesPotentielles;
             this.esperanceDeVie = esperanceDeVie;
             this.productionMax = productionMax;
+            this.taille = 0.0;
+            
         }
 
 
@@ -83,7 +87,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         // Affiche un résumé de l'état de la plante
         public override string ToString()
         {
-            return $"Nom: {Nom}, Vivace: {EstVivace}, Comestible: {EstComestible}, Terrain préféré: {TypeTerrainPrefere}";
+            return $"Nom: {Nom}, Vivace: {EstVivace}, Comestible: {EstComestible}, Terrain préféré: {TypeTerrainPrefere}, Taille: {Taille} cm";
         }
 
     }
