@@ -39,31 +39,45 @@ namespace SimulateurPotager
                 Console.WriteLine("4. Passer à la semaine suivante");
                 Console.WriteLine("5. Quitter le jeu");
 
-                Console.Write("Choisissez une action : ");
-                string choix = Console.ReadLine()!;
-
                 choixAction:
+                Console.Write("Choisissez une action : ");
+                ConsoleKeyInfo entree = Console.ReadKey()!;
+                int choix;
+                if (char.IsDigit(entree.KeyChar))
+                {
+                    choix = int.Parse(entree.KeyChar.ToString());
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Entrée invalide.\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    goto choixAction;
+                }
+
                 switch (choix)
                 {
-                    case "1":
+                    case 1:
                         SemerPlante();
                         break;
-                    case "2":
+                    case 2:
                         ArroserPlantes();
                         break;
-                    case "3":
+                    case 3:
                         RecolterPlantes();
                         break;
-                    case "4":
+                    case 4:
                         SimulerSemaine();
                         semaine++;
                         break;
-                    case "5":
+                    case 5:
                         continuer = false;
                         Console.WriteLine("Merci d’avoir joué !");
                         break;
                     default:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Choix invalide.");
+                        Console.ForegroundColor = ConsoleColor.White;
                         goto choixAction;
                 }
             }
