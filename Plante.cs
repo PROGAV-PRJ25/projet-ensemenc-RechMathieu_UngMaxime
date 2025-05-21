@@ -81,10 +81,34 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
 
         // --- MÉTHODES COMMUNES ---
 
-        //méthode d'association d'un terrain
+        //Association d'un terrain à la plante
         public void AssocierTerrain(Terrain terrain)
         {
             this.terrainAssocie = terrain;
+        }
+
+        // Calcul du taux de conditions optimales à la survie
+
+        public double CalculerTauxConditions()
+        {
+            if (terrainAssocie == null)
+                return 0.0;
+
+            double score = 0;
+            int critères = 3; // Nombre de critères
+
+            // 1. Type de terrain préféré : si planté dans terrain préféré 1/1, sinon 0/1
+            if (terrainAssocie.Nom == TypeTerrainPrefere) score += 1.0;
+
+            // 2. Eau : comparer QuantiteEauActuelle * surface vs BesoinEau
+            double eauDispo = terrainAssocie.QuantiteEauActuelle * SurfaceNecessaire;
+            double diffEau = Math.Abs(eauDispo - BesoinEau); // Pas de differenciation entre trop et pas assez d'eau pour le moment
+            score += 1.0 - Math.Min(1.0, diffEau / 5.0); // Tolérance ±5L
+
+            // 3. Fertilité
+            score += terrainAssocie.Fertilite / 100.0;
+
+            return score / critères;
         }
 
         // Vérifie si la plante survit selon le taux de respect des conditions optimales
