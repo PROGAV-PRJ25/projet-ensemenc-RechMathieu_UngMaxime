@@ -5,8 +5,6 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
 {
     public class Tulipe : Plante
     {
-        private double croissance; // Hauteur actuelle de la plante
-
         public Tulipe(string nom = "Tulipe") : base(
             nom,
             estVivace: true,
@@ -23,16 +21,13 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             esperanceDeVie: 12,            // en semaines
             productionMax: 1               // 1 fleur par bulbe
         )
-        {
-            croissance = 0;
-        }
+        { }
 
         public override void Pousser(double tauxConditionsFavorables)
         {
             double croissanceHebdo = VitesseCroissance * tauxConditionsFavorables;
-            croissance += croissanceHebdo;
-
-            Console.WriteLine($"{Nom} a poussé de {croissanceHebdo:F1} cm cette semaine. Hauteur totale : {croissance:F1} cm.");
+            Taille += croissanceHebdo;
+            Console.WriteLine($"{Nom} a poussé de {croissanceHebdo:F1} cm cette semaine. Hauteur totale : {Taille:F1} cm.");
         }
 
         public override void AttraperMaladie(Random rng)
@@ -46,7 +41,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
 
         public override string ToString()
         {
-            return $"🌷 {Nom} - Vivace : {EstVivace}, Terrain : {TypeTerrainPrefere}, Hauteur : {croissance:F1} cm";
+            return $"🌷 {Nom} - Vivace : {EstVivace}, Terrain : {TypeTerrainPrefere}, Hauteur : {Taille:F1} cm";
         }
     }
 }

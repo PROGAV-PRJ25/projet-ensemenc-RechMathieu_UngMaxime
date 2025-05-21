@@ -25,19 +25,14 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                   esperanceDeVie: 6.0,
                   productionMax: 8
                   )
-            {
-
-            }
+            {}
         
         public override void Pousser(double tauxConditionsFavorables)
         {
             if (VerifierSurvie(tauxConditionsFavorables)) // Verifie si conditions remplis pour que la plante soit vivante
             {
                 double croissance = VitesseCroissance * tauxConditionsFavorables;
-                var tailleActuelle = this.Taille + croissance;
-                typeof(Plante)
-                    .GetProperty("Taille")
-                    .SetValue(this, tailleActuelle);
+                Taille += croissance;
                 Console.WriteLine($"La tomate a poussé, taille actuelle: {Taille} cm");
             }
             else

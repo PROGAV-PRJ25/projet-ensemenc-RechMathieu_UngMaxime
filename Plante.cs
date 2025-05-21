@@ -22,7 +22,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         private List<string> maladiesPotentielles;
         private double esperanceDeVie; // en semaine
         private int productionMax; // Nombre maximal de produits (fruits, légumes, etc.)
-        private double taille; // en cm
+        private Terrain terrainAssocie;
 
         // --- PROPRIÉTÉS PUBLIQUES ---
         public string Nom { get => nom; }
@@ -39,7 +39,9 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         public List<string> MaladiesPotentielles { get => maladiesPotentielles; }
         public double EsperanceDeVie { get => esperanceDeVie; }
         public int ProductionMax { get => productionMax; }
-        public double Taille { get; private set; }
+        public Terrain TerrainAssocie { get { return terrainAssocie; } }
+        // Classe protégé pour accès par les classes dérivées
+        public double Taille { get; protected set; }
 
         // --- CONSTRUCTEUR ---
         public Plante(string nom, bool estVivace, bool estComestible, List<string> saisonsSemis,
@@ -62,8 +64,9 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             this.maladiesPotentielles = maladiesPotentielles;
             this.esperanceDeVie = esperanceDeVie;
             this.productionMax = productionMax;
-            this.taille = 0.0;
-            
+            this.Taille = 0.0;
+            this.terrainAssocie = null; // 🔧 INIT terrain à null
+
         }
 
 
@@ -77,6 +80,12 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
 
 
         // --- MÉTHODES COMMUNES ---
+
+        //méthode d'association d'un terrain
+        public void AssocierTerrain(Terrain terrain)
+        {
+            this.terrainAssocie = terrain;
+        }
 
         // Vérifie si la plante survit selon le taux de respect des conditions optimales
         public bool VerifierSurvie(double tauxConditionsRespectees)
