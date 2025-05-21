@@ -27,7 +27,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         {
             double croissanceHebdo = VitesseCroissance * tauxConditionsFavorables;
             Taille += croissanceHebdo;
-            Console.WriteLine($"{Nom} a poussé de {croissanceHebdo:F1} cm cette semaine. Hauteur totale : {taille:F1} cm.");
+            Console.WriteLine($"{Nom} a poussé de {croissanceHebdo:F1} cm cette semaine. Hauteur totale : {Taille:F1} cm.");
         }
 
         public override void AttraperMaladie(Random rng)

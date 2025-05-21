@@ -99,7 +99,7 @@ namespace SimulateurPotager
 
         private void SemerPlante()
         {
-            Console.Write("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : A venir...");
+            Console.Write("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate");
             ConsoleKeyInfo entree = Console.ReadKey()!;
             int numeroPlante;
             if (char.IsDigit(entree.KeyChar))
@@ -109,17 +109,16 @@ namespace SimulateurPotager
             else numeroPlante = 0;
 
             choixPlante:
+            Plante nouvellePlante = null;
             switch (numeroPlante)
             {
                 case 1:
-                    Tulipe nouvellePlante = new Tulipe();
-                    plantes.Add(nouvellePlante);
-                    Console.WriteLine("🌷 Tulipe plantée.");
+                    nouvellePlante = new Tulipe();
+                    Console.WriteLine("🌷 Tulipe choisie.");
                     break;
-                 case 2:
-                    Tomate nouvellePlante = new Tomate();
-                    plantes.Add(nouvellePlante);
-                    Console.WriteLine("🍅 Tomate plantée.");
+                case 2:
+                    nouvellePlante = new Tomate();
+                    Console.WriteLine("🍅 Tomate chosie.");
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -128,6 +127,34 @@ namespace SimulateurPotager
                     goto choixPlante;
             }
 
+        // Choix terrain
+        choixTerrain:
+            Console.Write("\nChoisissez lr type de terrain où planter :\n1) Terre\n> ");
+            ConsoleKeyInfo terrainEntree = Console.ReadKey()!;
+            int numeroTerrain;
+            if (char.IsDigit(terrainEntree.KeyChar))
+            {
+                numeroTerrain = int.Parse(terrainEntree.KeyChar.ToString());
+            }
+            else numeroTerrain = 0;
+
+            Terrain terrain = null;
+            switch (numeroTerrain)
+            {
+                case 1:
+                    terrain = new Terre();
+                    Console.WriteLine($"Terre choisie");
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nCe terrain n'existe pas !");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    goto choixTerrain;
+            }
+
+            nouvellePlante.AssocierTerrain(terrain);
+            plantes.Add(nouvellePlante);
+            Console.WriteLine($"\n{nouvellePlante.Nom} plantée sur terrain : {terrain.Nom}.");
         }
 
         private void ArroserPlantes()
