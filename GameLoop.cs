@@ -167,8 +167,16 @@ namespace SimulateurPotager
 
         private void ArroserPlantes()
         {
-            Console.WriteLine("Vous avez arrosé toutes les plantes.");
+            foreach (var plante in plantes)
+            {
+                if (plante.TerrainAssocie != null)
+                {
+                    plante.TerrainAssocie.AjouterEau(1.0); // Ajoute 1L d'eau/m²
+                }
+            }
+            Console.WriteLine("Vous avez arrosé toutes les plantes (+1L/m² chacune).");
         }
+
 
         private void RecolterPlantes()
         {
@@ -181,7 +189,7 @@ namespace SimulateurPotager
         {
             foreach (var plante in plantes.ToList())
             {
-                double tauxConditions = rng.NextDouble(); // Simule la météo/conditions
+                double tauxConditions = plante.CalculerTauxConditions(); // ✅ 
                 plante.Pousser(tauxConditions);
                 plante.AttraperMaladie(rng);
 
