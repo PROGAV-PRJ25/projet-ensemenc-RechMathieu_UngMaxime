@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace projet_ensemenc_RechMathieu_UngMaxime
 {
-    public class Terrain
+    public abstract class Terrain
     {
+        // --- ATTRIBUTS PRIVÉS ---
         private string nom;
         private double capaciteEau;
         private double fertilite;
 
+        // --- PROPRIÉTÉS PUBLIQUES ---
         public string Nom { get { return nom; } }
         public double CapaciteEau { get { return capaciteEau; } }
         public double Fertilite { get { return fertilite; } }

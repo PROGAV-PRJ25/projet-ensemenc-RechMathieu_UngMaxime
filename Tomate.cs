@@ -22,7 +22,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                   besoinLuminosite: 80.0, // en %
                   plageTemperature: Tuple.Create(15.0, 30.0),
                   maladiesPotentielles: new List<string> { "Mildiou", "Oïdium" },
-                  esperanceDeVie: 6.0,
+                  esperanceDeVie: 6.0, // Semaines
                   productionMax: 8
                   )
             {}
