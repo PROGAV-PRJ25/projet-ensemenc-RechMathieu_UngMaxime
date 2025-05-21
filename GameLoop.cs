@@ -129,7 +129,7 @@ namespace SimulateurPotager
 
         // Choix terrain
         choixTerrain:
-            Console.Write("\nChoisissez lr type de terrain où planter :\n1) Terre\n> ");
+            Console.WriteLine("\nChoisissez le type de terrain où planter :\n1) Terre\n2) Sable\n3) Argile\n> ");
             ConsoleKeyInfo terrainEntree = Console.ReadKey()!;
             int numeroTerrain;
             if (char.IsDigit(terrainEntree.KeyChar))
@@ -143,7 +143,15 @@ namespace SimulateurPotager
             {
                 case 1:
                     terrain = new Terre();
-                    Console.WriteLine($"Terre choisie");
+                    Console.WriteLine("🌱 Terrain Terre choisi.");
+                    break;
+                case 2:
+                    terrain = new Sable();
+                    Console.WriteLine("🏖️ Terrain Sable choisi.");
+                    break;
+                case 3:
+                    terrain = new Argile();
+                    Console.WriteLine("🧱 Terrain Argile choisi.");
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.Red;
