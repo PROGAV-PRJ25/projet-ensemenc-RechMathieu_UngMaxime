@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("projet-ensemenc-RechMathieu_UngMaxime")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99efcdd7365580d3eb5a5bea025c8abb2f1673f8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+131dc133e6732248eee8bba72fd9992875583dea")]
 [assembly: System.Reflection.AssemblyProductAttribute("projet-ensemenc-RechMathieu_UngMaxime")]
 [assembly: System.Reflection.AssemblyTitleAttribute("projet-ensemenc-RechMathieu_UngMaxime")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

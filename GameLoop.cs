@@ -106,7 +106,7 @@ namespace SimulateurPotager
             {
                 numeroPlante = int.Parse(entree.KeyChar.ToString());
             }
-            else numeroPlante = 1;
+            else numeroPlante = 0;
 
             choixPlante:
             switch (numeroPlante)
@@ -115,6 +115,11 @@ namespace SimulateurPotager
                     Tulipe nouvellePlante = new Tulipe();
                     plantes.Add(nouvellePlante);
                     Console.WriteLine("🌷 Tulipe plantée.");
+                    break;
+                 case 2:
+                    Tomate nouvellePlante = new Tomate();
+                    plantes.Add(nouvellePlante);
+                    Console.WriteLine("🍅 Tomate plantée.");
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.Red;
