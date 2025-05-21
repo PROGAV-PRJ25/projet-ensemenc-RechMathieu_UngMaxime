@@ -187,9 +187,22 @@ namespace SimulateurPotager
 
         private void SimulerSemaine()
         {
+            // Determination saison et Météo
+            Saison saison = new Saison(semaine, rng);
+            double temperature = saison.GenererTemperature();
+            double precipitation = saison.GenererPrecipitations();
+            Console.WriteLine($"\n📅 {saison} | 🌡️ {temperature}°C | 🌧️ {precipitation:F1} L/m²\n");
+
+            // Absorption pluie par Terrain
+            foreach (var plante in plantes)
+            {
+                plante.TerrainAssocie?.AjouterEau(precipitation);
+            }
+
+            // Determination nouvelle état de la plante
             foreach (var plante in plantes.ToList())
             {
-                double tauxConditions = plante.CalculerTauxConditions(); // ✅ 
+                double tauxConditions = plante.CalculerTauxConditions(temperature); // ✅ 
                 plante.Pousser(tauxConditions);
                 plante.AttraperMaladie(rng);
 
