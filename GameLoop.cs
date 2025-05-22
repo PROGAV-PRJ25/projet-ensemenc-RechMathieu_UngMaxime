@@ -93,13 +93,13 @@ namespace SimulateurPotager
 
             foreach (var plante in plantes)
             {
-                Console.WriteLine(plante.ToString());
+                Console.WriteLine(plante.AfficherResume());
             }
         }
 
         private void SemerPlante()
         {
-            Console.Write("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate");
+            Console.WriteLine("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate");
             ConsoleKeyInfo entree = Console.ReadKey()!;
             int numeroPlante;
             if (char.IsDigit(entree.KeyChar))
@@ -126,9 +126,10 @@ namespace SimulateurPotager
                     Console.ForegroundColor = ConsoleColor.White;
                     goto choixPlante;
             }
+            Console.WriteLine(nouvellePlante.AfficherProprietes());
 
-        // Choix terrain
-        choixTerrain:
+            // Choix terrain
+            choixTerrain:
             Console.WriteLine("\nChoisissez le type de terrain où planter :\n1) Terre\n2) Sable\n3) Argile\n> ");
             ConsoleKeyInfo terrainEntree = Console.ReadKey()!;
             int numeroTerrain;
@@ -158,6 +159,16 @@ namespace SimulateurPotager
                     Console.WriteLine("\nCe terrain n'existe pas !");
                     Console.ForegroundColor = ConsoleColor.White;
                     goto choixTerrain;
+            }
+            Console.WriteLine(terrain.AfficherProprietes());
+
+            // Confirmation de la plantation
+            Console.WriteLine("\n✅ Confirmer la plantation ? (o pour oui, autre touche pour annuler)");
+            ConsoleKeyInfo confirmation = Console.ReadKey();
+            if (confirmation.KeyChar != 'o' && confirmation.KeyChar != 'O')
+            {
+                Console.WriteLine("\n🌱 Plantation annulée.");
+                return;
             }
 
             nouvellePlante.AssocierTerrain(terrain);
@@ -200,15 +211,20 @@ namespace SimulateurPotager
             }
 
             // Determination nouvelle état de la plante
+            Console.WriteLine("📈 Évolution hebdomadaire des plantes :");
             foreach (var plante in plantes.ToList())
             {
-                double tauxConditions = plante.CalculerTauxConditions(temperature); // ✅ 
+                double tauxConditions = plante.CalculerTauxConditions(temperature);
+                double tailleAvant = plante.Taille;
                 plante.Pousser(tauxConditions);
                 plante.AttraperMaladie(rng);
 
+                if (plante.Taille > tailleAvant)
+                    Console.WriteLine($"→ {plante.Nom} a grandi de {plante.Taille - tailleAvant:F1} cm.");
+
                 if (!plante.VerifierSurvie(tauxConditions))
                 {
-                    Console.WriteLine($"La plante {plante.Nom} est morte cette semaine.");
+                    Console.WriteLine($"💀 La plante {plante.Nom} est morte cette semaine.");
                     plantes.Remove(plante);
                 }
             }

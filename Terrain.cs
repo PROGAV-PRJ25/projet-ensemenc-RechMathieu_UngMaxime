@@ -37,9 +37,15 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             if (quantiteEauActuelle > capaciteEau)
                 quantiteEauActuelle = capaciteEau; // 🔧 Ne jamais dépasser la capacité max
         }
-         public override string ToString()
+        
+        // // Affichage détaillée des propriétés du type de terrain
+        public string AfficherProprietes()
         {
-            return $"{Nom} - Eau : {CapaciteEau} L/m² - Fertilité : {Fertilite}/100";
+            return $"\n🌍 Fiche terrain : {Nom}\n" +
+                $"- Capacité d'eau : {CapaciteEau} L/m²\n" +
+                $"- Fertilité : {Fertilite}/100\n" +
+                $"- Eau actuelle : {QuantiteEauActuelle:F1} L/m²";
         }
+
     }
 }

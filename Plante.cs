@@ -7,7 +7,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
 {
     public abstract class Plante
     {
-         // --- ATTRIBUTS PRIVÉS ---
+        // --- ATTRIBUTS PRIVÉS ---
         private string nom;
         private bool estVivace; // true = vivace, false = annuelle
         private bool estComestible;
@@ -65,7 +65,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             this.esperanceDeVie = esperanceDeVie;
             this.productionMax = productionMax;
             this.Taille = 0.0;
-            this.terrainAssocie = null; // 🔧 INIT terrain à null
+            this.terrainAssocie = null; 
 
         }
 
@@ -129,10 +129,24 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             return tauxConditionsRespectees >= 0.5;
         }
 
-        // Affiche un résumé de l'état de la plante
-        public override string ToString()
+        
+        // Affichage détaillée des propriétés du type de plante
+        public string AfficherProprietes()
         {
-            return $"Nom: {Nom}, Vivace: {EstVivace}, Comestible: {EstComestible}, Terrain préféré: {TypeTerrainPrefere}, Taille: {Taille} cm";
+            return $"\n📋 Fiche plante : {Nom}\n" +
+                $"- Type : {(EstVivace ? "Vivace" : "Annuelle")}\n" +
+                $"- Terrain préféré : {TypeTerrainPrefere}\n" +
+                $"- Saisons de semis : {string.Join(", ", SaisonsSemis)}\n" +
+                $"- Besoin en eau : {BesoinEau} L/semaine\n" +
+                $"- Besoin en lumière : {BesoinLuminosite}%\n" +
+                $"- Température idéale : {PlageTemperature.Item1}°C à {PlageTemperature.Item2}°C\n" +
+                $"- Espérance de vie : {EsperanceDeVie} semaines";
+        }
+
+        // Affichage synthétique de l'état de la plante
+        public string AfficherResume()
+        {
+            return $"🌿 {Nom} | Taille : {Taille:F1} cm | Terrain : {TerrainAssocie?.Nom ?? "Aucun"}";
         }
 
     }
