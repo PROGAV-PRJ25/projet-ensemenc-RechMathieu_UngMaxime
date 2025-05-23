@@ -70,8 +70,8 @@ namespace SimulateurPotager
                         RecolterPlantes();
                         break;
                     case 4:
-                        SimulerSemaine();
                         semaine++;
+                        SimulerSemaine();
                         break;
                     case 5:
                         continuer = false;
@@ -103,35 +103,50 @@ namespace SimulateurPotager
             }
         }
 
-        private void SemerPlante()
+        private Plante ChoisirPlante()
         {
             Console.WriteLine("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate");
-            ConsoleKeyInfo entree = Console.ReadKey()!;
-            int numeroPlante;
-            if (char.IsDigit(entree.KeyChar))
+            while (true)
             {
-                numeroPlante = int.Parse(entree.KeyChar.ToString());
+                ConsoleKeyInfo entree = Console.ReadKey();
+                Console.WriteLine();
+                switch (entree.KeyChar)
+                {
+                    case '1': Console.WriteLine("🌷 Tulipe choisie."); return new Tulipe();
+                    case '2': Console.WriteLine("🍅 Tomate choisie."); return new Tomate();
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Cette plante n'existe pas !");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                }
             }
-            else numeroPlante = 0;
+        }
 
-            choixPlante:
-            Plante? nouvellePlante = null;
-            switch (numeroPlante)
+        private Terrain ChoisirTerrain()
+        {
+            Console.WriteLine("Choisissez le type de terrain où planter :\n1) Terre\n2) Sable\n3) Argile");
+            while (true)
             {
-                case 1:
-                    nouvellePlante = new Tulipe();
-                    Console.WriteLine("🌷 Tulipe choisie.");
-                    break;
-                case 2:
-                    nouvellePlante = new Tomate();
-                    Console.WriteLine("🍅 Tomate chosie.");
-                    break;
-                default:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nCette plante n'existe pas !\n");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    goto choixPlante;
+                ConsoleKeyInfo entree = Console.ReadKey();
+                Console.WriteLine();
+                switch (entree.KeyChar)
+                {
+                    case '1': Console.WriteLine("🌱 Terrain Terre choisi."); return new Terre();
+                    case '2': Console.WriteLine("🏖️ Terrain Sable choisi."); return new Sable();
+                    case '3': Console.WriteLine("🧱 Terrain Argile choisi."); return new Argile();
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Ce terrain n'existe pas !");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                }
             }
+        }
+
+        private void SemerPlante()
+        {
+            Plante nouvellePlante = ChoisirPlante();
             Console.WriteLine(nouvellePlante.AfficherProprietes());
 
             // Vérification de la saison de semis
@@ -142,47 +157,10 @@ namespace SimulateurPotager
                 return;
             }
 
-        // Choix terrain
-        choixTerrain:
-            Console.WriteLine("\nChoisissez le type de terrain où planter :\n1) Terre\n2) Sable\n3) Argile\n> ");
-            ConsoleKeyInfo terrainEntree = Console.ReadKey()!;
-            int numeroTerrain;
-            if (char.IsDigit(terrainEntree.KeyChar))
-            {
-                numeroTerrain = int.Parse(terrainEntree.KeyChar.ToString());
-            }
-            else numeroTerrain = 0;
-
-            Terrain terrain = numeroTerrain switch
-            {
-                1 => new Terre(),
-                2 => new Sable(),
-                3 => new Argile(),
-                _ => new Terre() //valeur par défaut
-            };
-            switch (numeroTerrain)
-            {
-                case 1:
-                    terrain = new Terre();
-                    Console.WriteLine("🌱 Terrain Terre choisi.");
-                    break;
-                case 2:
-                    terrain = new Sable();
-                    Console.WriteLine("🏖️ Terrain Sable choisi.");
-                    break;
-                case 3:
-                    terrain = new Argile();
-                    Console.WriteLine("🧱 Terrain Argile choisi.");
-                    break;
-                default:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nCe terrain n'existe pas !");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    goto choixTerrain;
-            }
+            Terrain terrain = ChoisirTerrain();
             Console.WriteLine(terrain.AfficherProprietes());
 
-            // Confirmation de la plantation
+            // Confirmation
             Console.WriteLine("\n✅ Confirmer la plantation ? (o pour oui, autre touche pour annuler)");
             ConsoleKeyInfo confirmation = Console.ReadKey();
             if (confirmation.KeyChar != 'o' && confirmation.KeyChar != 'O')
@@ -193,7 +171,7 @@ namespace SimulateurPotager
 
             nouvellePlante.AssocierTerrain(terrain);
             plantes.Add(nouvellePlante);
-            semainesPlantation.Add(semaine); // stockage de la semaine de plantation pour suivre l'âge de la plante
+            semainesPlantation.Add(semaine);
             Console.WriteLine($"\n{nouvellePlante.Nom} plantée sur terrain : {terrain.Nom}.");
         }
 
@@ -212,8 +190,8 @@ namespace SimulateurPotager
             Console.Write("> ");
             if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= plantes.Count)
             {
-                plantes[index - 1].TerrainAssocie?.AjouterEau(1.0);
-                Console.WriteLine($"💧 {plantes[index - 1].Nom} a été arrosée (1L/m² ajouté).");
+                plantes[index - 1].TerrainAssocie?.AjouterEau(0.1);
+                Console.WriteLine($"💧 {plantes[index - 1].Nom} a été arrosée (0.1L/m² ajouté).");
             }
             else
             {
