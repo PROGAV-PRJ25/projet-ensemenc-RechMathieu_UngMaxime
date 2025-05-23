@@ -12,7 +12,7 @@ namespace SimulateurPotager
         private Random rng;
         private List<int> semainesPlantation = new List<int>(); // Age des plantes semées
         private List<string> nomsPlantesRecoltees = new List<string>();
-        private List<int> quantitesRecoltees = new List<int>();
+        private List<int> quantitesRecoltees = new List<int>(); 
 
         public Game()
         {
@@ -105,29 +105,31 @@ namespace SimulateurPotager
 
         private Plante ChoisirPlante()
         {
-            Console.WriteLine("Quelle plante voulez-vous semer ? :");
-            Console.WriteLine("1) Tulipe\n2) Tomate\n3) Fraise\n4) Carotte\n5) Courgette\n6) Laitue\n7) Menthe\n8) Aubergine\n9) Radis\n10) Tournesol\n11) Rose\n12) Lavande");
-            Console.Write("> ");
-            string? saisie = Console.ReadLine();
-            switch (saisie)
+            Console.WriteLine("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate\n3) : Aubergine\n4) : Carotte\n5) : Courgette\n6) : Fraise\n7) : Laitue\n8) : Lavande\n9) : Menthe\n10) : Radis\n11) : Rose\n12) : Tournesol");
+            while (true)
             {
-                case "1": Console.WriteLine("🌷 Tulipe choisie."); return new Tulipe();
-                case "2": Console.WriteLine("🍅 Tomate choisie."); return new Tomate();
-                case "3": Console.WriteLine("🍓 Fraise choisie."); return new Fraise();
-                case "4": Console.WriteLine("🥕 Carotte choisie."); return new Carotte();
-                case "5": Console.WriteLine("🥒 Courgette choisie."); return new Courgette();
-                case "6": Console.WriteLine("🥬 Laitue choisie."); return new Laitue();
-                case "7": Console.WriteLine("🌿 Menthe choisie."); return new Menthe();
-                case "8": Console.WriteLine("🍆 Aubergine choisie."); return new Aubergine();
-                case "9": Console.WriteLine("🌱 Radis choisie."); return new Radis();
-                case "10": Console.WriteLine("🌻 Tournesol choisi."); return new Tournesol();
-                case "11": Console.WriteLine("🌹 Rose choisie."); return new Rose();
-                case "12": Console.WriteLine("💐 Lavande choisie."); return new Lavande();
-                default:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Cette plante n'existe pas !");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    return ChoisirPlante();
+                ConsoleKeyInfo entree = Console.ReadKey();
+                Console.WriteLine();
+                switch (entree.KeyChar.ToString())
+                {
+                    case "1": Console.WriteLine("🌷 Tulipe choisie."); return new Tulipe();
+                    case "2": Console.WriteLine("🍅 Tomate choisie."); return new Tomate();
+                    case "3": Console.WriteLine("🍆 Aubergine choisie."); return new Aubergine();
+                    case "4": Console.WriteLine("🥕 Carotte choisie."); return new Carotte();
+                    case "5": Console.WriteLine("🥒 Courgette choisie."); return new Courgette();
+                    case "6": Console.WriteLine("🍓 Fraise choisie."); return new Fraise();
+                    case "7": Console.WriteLine("🥬 Laitue choisie."); return new Laitue();
+                    case "8": Console.WriteLine("🌸 Lavande choisie."); return new Lavande();
+                    case "9": Console.WriteLine("☘ Menthe choisie."); return new Menthe();
+                    case "10": Console.WriteLine("🥕 Radis choisi."); return new Radis();
+                    case "11": Console.WriteLine("🌹 Rose choisie."); return new Rose();
+                    case "12": Console.WriteLine("🌻 Tournesol choisi."); return new Tournesol();
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Cette plante n'existe pas !");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                }
             }
         }
 
@@ -224,7 +226,7 @@ namespace SimulateurPotager
             if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= plantes.Count)
             {
                 int i = index - 1;
-                // Les plantes qui ont atteints plus de la moitié de leurs espérances de vie peuvent 
+                // Les plantes qui ont atteint plus de la moitié de leur espérance de vie peuvent être récoltées
                 if (plantes[i].PeutEtreRecoltee(AgePlante(i)))
                 {
                     string nom = plantes[i].Nom;
