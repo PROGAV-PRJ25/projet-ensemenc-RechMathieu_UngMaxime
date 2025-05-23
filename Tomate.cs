@@ -25,8 +25,8 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                   esperanceDeVie: 6.0, // Semaines
                   productionMax: 8
                   )
-            {}
-        
+        { }
+
         public override void Pousser(double tauxConditionsFavorables)
         {
             if (VerifierSurvie(tauxConditionsFavorables)) // Verifie si conditions remplis pour que la plante soit vivante
@@ -41,6 +41,13 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                 Console.WriteLine("La tomate n'a pas survécu aux mauvaises conditions...");
             }
         }
+        
+        public override string ToString()
+        {
+            string etat = EstMalade ? "❌ est Malade" : "✅ n'est pas Malade";
+            return $"🍅 {Nom} | Taille : {Taille:F1} cm | Terrain : {TerrainAssocie?.Nom ?? "Aucun"} | {etat}";
+        }
+
 
     }
 }

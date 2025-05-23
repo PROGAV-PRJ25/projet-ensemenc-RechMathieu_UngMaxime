@@ -10,6 +10,8 @@ namespace SimulateurPotager
         private List<Plante> plantes; // Les plantes en jeu
         private int semaine;
         private Random rng;
+        private List<string> nomsPlantesRecoltees = new List<string>();
+        private List<int> quantitesRecoltees = new List<int>();
 
         public Game()
         {
@@ -39,7 +41,7 @@ namespace SimulateurPotager
                 Console.WriteLine("4. Passer à la semaine suivante");
                 Console.WriteLine("5. Quitter le jeu");
 
-                choixAction:
+            choixAction:
                 Console.Write("Choisissez une action : ");
                 ConsoleKeyInfo entree = Console.ReadKey()!;
                 int choix;
@@ -72,7 +74,7 @@ namespace SimulateurPotager
                         break;
                     case 5:
                         continuer = false;
-                        Console.WriteLine("Merci d’avoir joué !");
+                        AfficherSynthese();
                         break;
                     default:
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -93,7 +95,7 @@ namespace SimulateurPotager
 
             foreach (var plante in plantes)
             {
-                Console.WriteLine(plante.AfficherResume());
+                Console.WriteLine(plante);
             }
         }
 
@@ -128,8 +130,16 @@ namespace SimulateurPotager
             }
             Console.WriteLine(nouvellePlante.AfficherProprietes());
 
-            // Choix terrain
-            choixTerrain:
+            // Vérification de la saison de semis
+            string saisonActuelle = new Saison(semaine, rng).Nom.ToString();
+            if (!nouvellePlante.SaisonsSemis.Contains(saisonActuelle))
+            {
+                Console.WriteLine($"\n🚫 {nouvellePlante.Nom} ne peut être semée qu'en : {string.Join(", ", nouvellePlante.SaisonsSemis)}.");
+                return;
+            }
+
+        // Choix terrain
+        choixTerrain:
             Console.WriteLine("\nChoisissez le type de terrain où planter :\n1) Terre\n2) Sable\n3) Argile\n> ");
             ConsoleKeyInfo terrainEntree = Console.ReadKey()!;
             int numeroTerrain;
@@ -191,8 +201,25 @@ namespace SimulateurPotager
 
         private void RecolterPlantes()
         {
+
+            int recoltees = 0;
             // Toute plante ayant dépassé la moitié de son espérance de vie peut être récoltée
-            int recoltees = plantes.RemoveAll(p => semaine >= p.EsperanceDeVie / 2);
+            var aRecolter = plantes.Where(p => semaine >= p.EsperanceDeVie / 2).ToList();
+            foreach (var p in aRecolter)
+            {
+                int index = nomsPlantesRecoltees.IndexOf(p.Nom);
+                if (index != -1)
+                    quantitesRecoltees[index]++;
+                else
+                {
+                    nomsPlantesRecoltees.Add(p.Nom);
+                    quantitesRecoltees.Add(1);
+                }
+
+                plantes.Remove(p);
+                recoltees++;
+            }
+
             Console.WriteLine($"{recoltees} plante(s) récoltée(s) !");
         }
 
@@ -203,7 +230,7 @@ namespace SimulateurPotager
             double temperature = saison.GenererTemperature();
             double precipitation = saison.GenererPrecipitations();
             double luminosite = saison.GenererLuminosite();
-            Console.WriteLine($"\n📅 {saison} | 🌡️ {temperature}°C | 🌧️ {precipitation:F1} L/m²\n");
+            Console.WriteLine($"\n📅 {saison} | 🌡️ {temperature}°C | 🌧️ {precipitation:F1} L/m² | ☀️ {luminosite:F0}% \n");
 
             // Absorption pluie par Terrain
             foreach (var plante in plantes)
@@ -227,6 +254,22 @@ namespace SimulateurPotager
                     plantes.Remove(plante);
                 }
             }
+        }
+
+        // Synthèse de fin de partie
+        private void AfficherSynthese()
+        {
+            Console.WriteLine("\n🧾 Synthèse de votre potager :");
+            if (nomsPlantesRecoltees.Count == 0)
+            {
+                Console.WriteLine("Aucune plante récoltée.");
+            }
+            else
+            {
+                for (int i = 0; i < nomsPlantesRecoltees.Count; i++)
+                    Console.WriteLine($"- {nomsPlantesRecoltees[i]} : {quantitesRecoltees[i]} récolte(s)");
+            }
+            Console.WriteLine("Merci d'avoir joué !");
         }
     }
 }

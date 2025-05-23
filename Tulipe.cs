@@ -33,7 +33,8 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
 
         public override string ToString()
         {
-            return $"🌷 {Nom} - Vivace : {EstVivace}, Terrain : {TypeTerrainPrefere}, Hauteur : {Taille:F1} cm";
+            string etat = EstMalade ? "❌ est Malade" : "✅ n'est pas Malade";
+            return $"🌷 {Nom} | Taille : {Taille:F1} cm | Terrain : {TerrainAssocie?.Nom ?? "Aucun"} | {etat}";
         }
     }
 }

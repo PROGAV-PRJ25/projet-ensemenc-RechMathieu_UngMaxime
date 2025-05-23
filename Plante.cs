@@ -161,10 +161,10 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         }
 
         // Affichage synthétique de l'état de la plante
-        public string AfficherResume()
+        public override string ToString()
         {
             string etat = estMalade ? "❌ est Malade" : "✅ n'est pas Malade";
-            return $"🌿 {Nom} | Taille : {Taille:F1} cm | Terrain : {TerrainAssocie?.Nom ?? "Aucun"}";
+            return $"🌿 {Nom} | Taille : {Taille:F1} cm | Terrain : {TerrainAssocie?.Nom ?? "Aucun"}| {etat}";
         }
 
     }
