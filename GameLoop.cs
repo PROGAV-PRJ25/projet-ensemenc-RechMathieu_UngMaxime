@@ -119,9 +119,9 @@ namespace SimulateurPotager
                     case "5": Console.WriteLine("🥒 Courgette choisie."); return new Courgette();
                     case "6": Console.WriteLine("🍓 Fraise choisie."); return new Fraise();
                     case "7": Console.WriteLine("🥬 Laitue choisie."); return new Laitue();
-                    case "8": Console.WriteLine("🌸 Lavande choisie."); return new Lavande();
-                    case "9": Console.WriteLine("☘ Menthe choisie."); return new Menthe();
-                    case "10": Console.WriteLine("🥕 Radis choisi."); return new Radis();
+                    case "8": Console.WriteLine("💐 Lavande choisie."); return new Lavande();
+                    case "9": Console.WriteLine("🌿 Menthe choisie."); return new Menthe();
+                    case "10": Console.WriteLine("🌱 Radis choisi."); return new Radis();
                     case "11": Console.WriteLine("🌹 Rose choisie."); return new Rose();
                     case "12": Console.WriteLine("🌻 Tournesol choisi."); return new Tournesol();
                     default:
