@@ -5,38 +5,42 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
 {
     public class Tulipe : Plante
     {
-        public Tulipe(string nom = "Tulipe") : base(
-            nom,
+        public Tulipe() : base(
+            nom: "Tulipe",
             estVivace: true,
             estComestible: false,
-            saisonsSemis: new List<string> { "Automne" }, // les bulbes se plantent à l'automne
+            saisonsSemis: new List<string> { "Automne" },
             typeTerrainPrefere: "Terre",
-            espacement: 10,                // en cm
-            surfaceNecessaire: 0.1,        // en m²
-            vitesseCroissance: 1.0,        // cm/semaine
-            besoinEau: 1.5,                // L/semaine
-            besoinLuminosite: 70,          // % de lumière
-            plageTemperature: Tuple.Create(5.0, 20.0), // température idéale en °C
+            espacement: 10,
+            surfaceNecessaire: 0.1,
+            vitesseCroissance: 1.0,
+            besoinEau: 1.5,
+            besoinLuminosite: 70,
+            plageTemperature: Tuple.Create(5.0, 20.0),
             maladiesPotentielles: new List<string> { "Botrytis", "Fusariose" },
-            esperanceDeVie: 12,            // en semaines
-            productionMax: 1               // 1 fleur par bulbe
-        )
-        { }
+            esperanceDeVie: 12,
+            productionMax: 1
+        ) { }
 
         public override void Pousser(double tauxConditionsFavorables)
         {
-            double croissanceHebdo = VitesseCroissance * tauxConditionsFavorables;
-            if (estMalade) croissanceHebdo *= 0.5;
-            Taille += croissanceHebdo;
-            Console.WriteLine($"{Nom} a poussé de {croissanceHebdo:F1} cm cette semaine. Hauteur totale : {Taille:F1} cm.");
+            if (tauxConditionsFavorables > 0.4)
+            {
+                double croissanceHebdo = tauxConditionsFavorables > 0.5 ? VitesseCroissance * tauxConditionsFavorables : VitesseCroissance * 0.2;
+                if (estMalade) croissanceHebdo *= 0.4;
+                Taille += croissanceHebdo;
+                Console.WriteLine($"🌷 {Nom} a poussé de {croissance:F1} cm. Hauteur : {Taille:F1} cm");
+            }
+            else
+            {
+                Console.WriteLine($"🌷 {Nom} n’a pas poussé cette semaine faute de bonnes conditions.");
+            }
         }
 
-        // redéfinition des conditions de recoltes
         public override bool PeutEtreRecoltee(int age)
         {
-            return age >= EsperanceDeVie * 0.4;
+            return age >= 4 && Taille >= 15.0;
         }
-
 
         public override string ToString()
         {
@@ -45,3 +49,4 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         }
     }
 }
+
