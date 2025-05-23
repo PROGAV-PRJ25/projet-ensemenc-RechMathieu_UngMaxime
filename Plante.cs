@@ -22,7 +22,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         private List<string> maladiesPotentielles;
         private double esperanceDeVie; // en semaine
         private int productionMax; // Nombre maximal de produits (fruits, légumes, etc.)
-        private Terrain terrainAssocie;
+        private Terrain terrainAssocie = null!;
 
         // --- ATTRIBUTS PROTEGES ---
         protected bool estMalade = false;
@@ -68,7 +68,6 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             this.esperanceDeVie = esperanceDeVie;
             this.productionMax = productionMax;
             this.Taille = 0.0;
-            this.terrainAssocie = null;
 
         }
 

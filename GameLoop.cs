@@ -10,6 +10,7 @@ namespace SimulateurPotager
         private List<Plante> plantes; // Les plantes en jeu
         private int semaine;
         private Random rng;
+        private List<int> semainesPlantation = new List<int>(); // Age des plantes semées
         private List<string> nomsPlantesRecoltees = new List<string>();
         private List<int> quantitesRecoltees = new List<int>();
 
@@ -36,8 +37,8 @@ namespace SimulateurPotager
                 // Actions disponibles
                 Console.WriteLine("Actions disponibles :");
                 Console.WriteLine("1. Semer une graine");
-                Console.WriteLine("2. Arroser");
-                Console.WriteLine("3. Récolter");
+                Console.WriteLine("2. Arroser une plante");
+                Console.WriteLine("3. Récolter une plante");
                 Console.WriteLine("4. Passer à la semaine suivante");
                 Console.WriteLine("5. Quitter le jeu");
 
@@ -85,6 +86,9 @@ namespace SimulateurPotager
             }
         }
 
+        private int AgePlante(int index)
+        { return semaine - semainesPlantation[index]; }
+
         private void AfficherEtatPlantes()
         {
             if (plantes.Count == 0)
@@ -93,9 +97,9 @@ namespace SimulateurPotager
                 return;
             }
 
-            foreach (var plante in plantes)
+            for (int i = 0; i < plantes.Count; i++)
             {
-                Console.WriteLine(plante);
+                Console.WriteLine($"{plantes[i]} | Âge : {AgePlante(i)} semaines.");
             }
         }
 
@@ -111,7 +115,7 @@ namespace SimulateurPotager
             else numeroPlante = 0;
 
             choixPlante:
-            Plante nouvellePlante = null;
+            Plante? nouvellePlante = null;
             switch (numeroPlante)
             {
                 case 1:
@@ -149,7 +153,13 @@ namespace SimulateurPotager
             }
             else numeroTerrain = 0;
 
-            Terrain terrain = null;
+            Terrain terrain = numeroTerrain switch
+            {
+                1 => new Terre(),
+                2 => new Sable(),
+                3 => new Argile(),
+                _ => new Terre() //valeur par défaut
+            };
             switch (numeroTerrain)
             {
                 case 1:
@@ -183,44 +193,78 @@ namespace SimulateurPotager
 
             nouvellePlante.AssocierTerrain(terrain);
             plantes.Add(nouvellePlante);
+            semainesPlantation.Add(semaine); // stockage de la semaine de plantation pour suivre l'âge de la plante
             Console.WriteLine($"\n{nouvellePlante.Nom} plantée sur terrain : {terrain.Nom}.");
         }
 
         private void ArroserPlantes()
         {
-            foreach (var plante in plantes)
+            if (plantes.Count == 0)
             {
-                if (plante.TerrainAssocie != null)
-                {
-                    plante.TerrainAssocie.AjouterEau(1.0); // Ajoute 1L d'eau/m²
-                }
+                Console.WriteLine("Aucune plante à arroser.");
+                return;
             }
-            Console.WriteLine("Vous avez arrosé toutes les plantes (+1L/m² chacune).");
+            Console.WriteLine("\nChoisissez la plante à arroser :");
+            for (int i = 0; i < plantes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {plantes[i].Nom} ({plantes[i].Taille:F1} cm)");
+            }
+            Console.Write("> ");
+            if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= plantes.Count)
+            {
+                plantes[index - 1].TerrainAssocie?.AjouterEau(1.0);
+                Console.WriteLine($"💧 {plantes[index - 1].Nom} a été arrosée (1L/m² ajouté).");
+            }
+            else
+            {
+                Console.WriteLine("❌ commande invalide.");
+            }
         }
-
 
         private void RecolterPlantes()
         {
-
-            int recoltees = 0;
-            // Toute plante ayant dépassé la moitié de son espérance de vie peut être récoltée
-            var aRecolter = plantes.Where(p => semaine >= p.EsperanceDeVie / 2).ToList();
-            foreach (var p in aRecolter)
+            if (plantes.Count == 0)
             {
-                int index = nomsPlantesRecoltees.IndexOf(p.Nom);
-                if (index != -1)
-                    quantitesRecoltees[index]++;
-                else
-                {
-                    nomsPlantesRecoltees.Add(p.Nom);
-                    quantitesRecoltees.Add(1);
-                }
-
-                plantes.Remove(p);
-                recoltees++;
+                Console.WriteLine("Aucune plante à récolter.");
+                return;
             }
 
-            Console.WriteLine($"{recoltees} plante(s) récoltée(s) !");
+            Console.WriteLine("\nChoisissez la plante à récolter :");
+            for (int i = 0; i < plantes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {plantes[i].Nom} - Taille: {plantes[i].Taille:F1} cm - Vie: {AgePlante(i)}/{plantes[i].EsperanceDeVie} sem."); // MODIFIÉ
+            }
+            Console.Write("> ");
+            if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= plantes.Count)
+            {
+                int i = index - 1;
+                // Les plantes qui ont atteints plus de la moitié de leurs espérances de vie peuvent 
+                if (AgePlante(i) >= plantes[i].EsperanceDeVie / 2)
+                {
+                    string nom = plantes[i].Nom;
+                    if (!nomsPlantesRecoltees.Contains(nom))
+                    {
+                        nomsPlantesRecoltees.Add(nom);
+                        quantitesRecoltees.Add(1);
+                    }
+                    else
+                    {
+                        int idx = nomsPlantesRecoltees.IndexOf(nom);
+                        quantitesRecoltees[idx]++;
+                    }
+                    plantes.RemoveAt(i);
+                    semainesPlantation.RemoveAt(i);
+                    Console.WriteLine($"✅ {nom} récoltée avec succès.");
+                }
+                else
+                {
+                    Console.WriteLine("⚠️ Cette plante est trop jeune pour être récoltée.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("❌ Commande invalide.");
+            }
         }
 
         private void SimulerSemaine()
