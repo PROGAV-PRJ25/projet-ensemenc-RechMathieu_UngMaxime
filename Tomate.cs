@@ -27,12 +27,13 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                   )
         { }
 
+        // redéfinition des conditions de croissance
         public override void Pousser(double tauxConditionsFavorables)
         {
             if (VerifierSurvie(tauxConditionsFavorables)) // Verifie si conditions remplis pour que la plante soit vivante
             {
                 double croissance = VitesseCroissance * tauxConditionsFavorables;
-                if (estMalade) croissance *= 0.5; // Ralentissement croissance si malade
+                if (estMalade) croissance *= 0.3; // Ralentissement croissance si malade
                 Taille += croissance;
                 Console.WriteLine($"La tomate a poussé, taille actuelle: {Taille} cm");
             }
@@ -41,6 +42,13 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                 Console.WriteLine("La tomate n'a pas survécu aux mauvaises conditions...");
             }
         }
+
+        // redéfinition des conditions de recoltes
+        public override bool PeutEtreRecoltee(int age)
+        {
+            return age >= EsperanceDeVie / 2;
+        }
+
         
         public override string ToString()
         {

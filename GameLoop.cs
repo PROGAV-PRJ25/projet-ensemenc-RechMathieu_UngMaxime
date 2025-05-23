@@ -217,7 +217,7 @@ namespace SimulateurPotager
             {
                 int i = index - 1;
                 // Les plantes qui ont atteints plus de la moitié de leurs espérances de vie peuvent 
-                if (AgePlante(i) >= plantes[i].EsperanceDeVie / 2)
+                if (plantes[i].PeutEtreRecoltee(AgePlante(i)))
                 {
                     string nom = plantes[i].Nom;
                     if (!nomsPlantesRecoltees.Contains(nom))

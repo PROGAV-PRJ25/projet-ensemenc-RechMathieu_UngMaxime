@@ -76,6 +76,11 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
 
         // Fait pousser la plante en fonction du taux de conditions favorables
         public abstract void Pousser(double tauxConditionsFavorables);
+        // 🔧 Conditions de récolte
+        public abstract bool PeutEtreRecoltee(int age);
+
+
+        // --- MÉTHODES VIRTUAL ---
 
         // Comportement standard pour attraper les maladies (15% de chances d'en attraper)
         public virtual void AttraperMaladie(Random rng)

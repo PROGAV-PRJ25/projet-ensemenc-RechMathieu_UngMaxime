@@ -29,7 +29,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             this.quantiteEauActuelle = capaciteEau / 2;
         }
 
-        // --- MÉTHODE D’AJOUT D’EAU ---
+        // --- MÉTHODES COMMUNES ---
         public void AjouterEau(double quantite)
         {
             quantiteEauActuelle += quantite;
@@ -38,7 +38,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                 quantiteEauActuelle = capaciteEau; // 🔧 Ne jamais dépasser la capacité max
         }
         
-        // // Affichage détaillée des propriétés du type de terrain
+        // Affichage détaillée des propriétés du type de terrain
         public string AfficherProprietes()
         {
             return $"\n🌍 Fiche terrain : {Nom}\n" +

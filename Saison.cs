@@ -24,10 +24,14 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         private SaisonNom DeterminerSaison(int semaine)
         {
             int s = (semaine - 1) % 52;
-            if (s < 13) return SaisonNom.Hiver;
-            if (s < 26) return SaisonNom.Printemps;
-            if (s < 39) return SaisonNom.Ete;
-            return SaisonNom.Automne;
+            if (s < 13)
+                return SaisonNom.Hiver;
+            else if (s < 26)
+                return SaisonNom.Printemps;
+            else if (s < 39)
+                return SaisonNom.Ete;
+            else
+                return SaisonNom.Automne;
         }
 
         // Générer la température en fonction de la saison en °C

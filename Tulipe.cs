@@ -31,6 +31,13 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             Console.WriteLine($"{Nom} a poussé de {croissanceHebdo:F1} cm cette semaine. Hauteur totale : {Taille:F1} cm.");
         }
 
+        // redéfinition des conditions de recoltes
+        public override bool PeutEtreRecoltee(int age)
+        {
+            return age >= EsperanceDeVie * 0.4;
+        }
+
+
         public override string ToString()
         {
             string etat = EstMalade ? "❌ est Malade" : "✅ n'est pas Malade";
