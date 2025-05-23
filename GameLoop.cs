@@ -9,6 +9,7 @@ namespace SimulateurPotager
     {
         private List<Plante> plantes; // Les plantes en jeu
         private int semaine;
+        private int nbActionsRestantes = 5;
         private Random rng;
         private List<int> semainesPlantation = new List<int>(); // Age des plantes semées
         private List<string> nomsPlantesRecoltees = new List<string>();
@@ -29,13 +30,20 @@ namespace SimulateurPotager
             bool continuer = true;
             while (continuer)
             {
+                if (nbActionsRestantes == 0)
+                {
+                    Console.WriteLine("Vous avez épuisé toutes vos actions pour la semaine !\nPassage à la semaine suivante...");
+                    nbActionsRestantes = 5;
+                    SimulerSemaine();
+                }
+                
                 Console.WriteLine($"\n--- Semaine {semaine} ---");
 
                 // Afficher l’état actuel du jardin
                 AfficherEtatPlantes();
 
                 // Actions disponibles
-                Console.WriteLine("Actions disponibles :");
+                Console.WriteLine($"Il vous reste {nbActionsRestantes} actions cette semaine.\nVoulez-vous :");
                 Console.WriteLine("1. Semer une graine");
                 Console.WriteLine("2. Arroser une plante");
                 Console.WriteLine("3. Récolter une plante");
@@ -71,6 +79,7 @@ namespace SimulateurPotager
                         break;
                     case 4:
                         semaine++;
+                        nbActionsRestantes = 5;
                         SimulerSemaine();
                         break;
                     case 5:
