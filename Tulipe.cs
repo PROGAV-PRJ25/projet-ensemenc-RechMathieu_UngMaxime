@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace projet_ensemenc_RechMathieu_UngMaxime
 {
@@ -26,9 +28,9 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         {
             if (tauxConditionsFavorables > 0.4)
             {
-                double croissanceHebdo = tauxConditionsFavorables > 0.5 ? VitesseCroissance * tauxConditionsFavorables : VitesseCroissance * 0.2;
-                if (estMalade) croissanceHebdo *= 0.4;
-                Taille += croissanceHebdo;
+                double croissance = tauxConditionsFavorables > 0.5 ? VitesseCroissance * tauxConditionsFavorables : VitesseCroissance * 0.2;
+                if (estMalade) croissance *= 0.4;
+                Taille += croissance;
                 Console.WriteLine($"🌷 {Nom} a poussé de {croissance:F1} cm. Hauteur : {Taille:F1} cm");
             }
             else

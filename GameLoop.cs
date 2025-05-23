@@ -105,21 +105,29 @@ namespace SimulateurPotager
 
         private Plante ChoisirPlante()
         {
-            Console.WriteLine("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate");
-            while (true)
+            Console.WriteLine("Quelle plante voulez-vous semer ? :");
+            Console.WriteLine("1) Tulipe\n2) Tomate\n3) Fraise\n4) Carotte\n5) Courgette\n6) Laitue\n7) Menthe\n8) Aubergine\n9) Radis\n10) Tournesol\n11) Rose\n12) Lavande");
+            Console.Write("> ");
+            string? saisie = Console.ReadLine();
+            switch (saisie)
             {
-                ConsoleKeyInfo entree = Console.ReadKey();
-                Console.WriteLine();
-                switch (entree.KeyChar)
-                {
-                    case '1': Console.WriteLine("🌷 Tulipe choisie."); return new Tulipe();
-                    case '2': Console.WriteLine("🍅 Tomate choisie."); return new Tomate();
-                    default:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Cette plante n'existe pas !");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        break;
-                }
+                case "1": Console.WriteLine("🌷 Tulipe choisie."); return new Tulipe();
+                case "2": Console.WriteLine("🍅 Tomate choisie."); return new Tomate();
+                case "3": Console.WriteLine("🍓 Fraise choisie."); return new Fraise();
+                case "4": Console.WriteLine("🥕 Carotte choisie."); return new Carotte();
+                case "5": Console.WriteLine("🥒 Courgette choisie."); return new Courgette();
+                case "6": Console.WriteLine("🥬 Laitue choisie."); return new Laitue();
+                case "7": Console.WriteLine("🌿 Menthe choisie."); return new Menthe();
+                case "8": Console.WriteLine("🍆 Aubergine choisie."); return new Aubergine();
+                case "9": Console.WriteLine("🌱 Radis choisie."); return new Radis();
+                case "10": Console.WriteLine("🌻 Tournesol choisi."); return new Tournesol();
+                case "11": Console.WriteLine("🌹 Rose choisie."); return new Rose();
+                case "12": Console.WriteLine("💐 Lavande choisie."); return new Lavande();
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Cette plante n'existe pas !");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    return ChoisirPlante();
             }
         }
 
