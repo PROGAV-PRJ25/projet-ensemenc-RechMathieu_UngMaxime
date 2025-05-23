@@ -36,7 +36,7 @@ namespace SimulateurPotager
                     nbActionsRestantes = 5;
                     SimulerSemaine();
                 }
-                
+
                 Console.WriteLine($"\n--- Semaine {semaine} ---");
 
                 // Afficher l’état actuel du jardin
@@ -235,7 +235,6 @@ namespace SimulateurPotager
             if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= plantes.Count)
             {
                 int i = index - 1;
-                // Les plantes qui ont atteint plus de la moitié de leur espérance de vie peuvent être récoltées
                 if (plantes[i].PeutEtreRecoltee(AgePlante(i)))
                 {
                     string nom = plantes[i].Nom;
@@ -277,7 +276,7 @@ namespace SimulateurPotager
             foreach (var plante in plantes)
             { plante.TerrainAssocie?.AjouterEau(precipitation); }
 
-            // Determination nouvelle état de la plante
+            // Determination nouvel état de la plante
             Console.WriteLine("📈 Évolution hebdomadaire des plantes :");
             foreach (var plante in plantes.ToList())
             {
