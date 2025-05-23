@@ -24,7 +24,11 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         private int productionMax; // Nombre maximal de produits (fruits, légumes, etc.)
         private Terrain terrainAssocie;
 
+        // --- ATTRIBUTS PROTEGES ---
+        protected bool estMalade = false;
+
         // --- PROPRIÉTÉS PUBLIQUES ---
+        public double Taille { get; protected set; } // protected set pour accès par les classes dérivées
         public string Nom { get => nom; }
         public bool EstVivace { get => estVivace; }
         public bool EstComestible { get => estComestible; }
@@ -40,8 +44,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         public double EsperanceDeVie { get => esperanceDeVie; }
         public int ProductionMax { get => productionMax; }
         public Terrain TerrainAssocie { get { return terrainAssocie; } }
-        // Classe protégé pour accès par les classes dérivées
-        public double Taille { get; protected set; }
+        public bool EstMalade => estMalade;
 
         // --- CONSTRUCTEUR ---
         public Plante(string nom, bool estVivace, bool estComestible, List<string> saisonsSemis,
@@ -65,7 +68,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             this.esperanceDeVie = esperanceDeVie;
             this.productionMax = productionMax;
             this.Taille = 0.0;
-            this.terrainAssocie = null; 
+            this.terrainAssocie = null;
 
         }
 
@@ -75,27 +78,36 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         // Fait pousser la plante en fonction du taux de conditions favorables
         public abstract void Pousser(double tauxConditionsFavorables);
 
-        // Simule la contamination par une maladie
-        public abstract void AttraperMaladie(Random rng);
-
+        // Comportement standard pour attraper les maladies (15% de chances d'en attraper)
+        public virtual void AttraperMaladie(Random rng)
+        {
+            if (MaladiesPotentielles.Count > 0 && rng.NextDouble() < 0.15)
+            {
+                string maladie = MaladiesPotentielles[rng.Next(MaladiesPotentielles.Count)];
+                estMalade = true;
+                Console.WriteLine($"⚠️ {Nom} a été infectée par : {maladie} !");
+            }
+            else
+            {
+                estMalade = false;
+                Console.WriteLine($"{Nom} est en bonne santé.");
+            }
+        }
 
         // --- MÉTHODES COMMUNES ---
 
         //Association d'un terrain à la plante
         public void AssocierTerrain(Terrain terrain)
-        {
-            this.terrainAssocie = terrain;
-        }
+        { this.terrainAssocie = terrain; }
 
         // Calcul du taux de conditions optimales à la survie
-
-        public double CalculerTauxConditions(double temperature)
+        public double CalculerTauxConditions(double temperature, double luminosite)
         {
             if (terrainAssocie == null)
                 return 0.0;
 
             double score = 0;
-            int critères = 4; // Nombre de critères
+            int critères = 5; // Nombre de critères
 
             // critère 1. Type de terrain préféré : si planté dans terrain préféré 1/1, sinon 0/1
             if (terrainAssocie.Nom == TypeTerrainPrefere) score += 1.0;
@@ -120,6 +132,10 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                 score += 1.0 - Math.Min(1.0, ecart / 5.0); // marge de 5°C
             }
 
+            // Critère 5 : Luminosité
+            double diffLumi = Math.Abs(luminosite - BesoinLuminosite); // en %
+            score += 1.0 - Math.Min(1.0, diffLumi / 10.0); // tolérance ±10%
+
             return score / critères;
         }
 
@@ -129,7 +145,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             return tauxConditionsRespectees >= 0.5;
         }
 
-        
+
         // Affichage détaillée des propriétés du type de plante
         public string AfficherProprietes()
         {
@@ -140,12 +156,14 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
                 $"- Besoin en eau : {BesoinEau} L/semaine\n" +
                 $"- Besoin en lumière : {BesoinLuminosite}%\n" +
                 $"- Température idéale : {PlageTemperature.Item1}°C à {PlageTemperature.Item2}°C\n" +
-                $"- Espérance de vie : {EsperanceDeVie} semaines";
+                $"- Espérance de vie : {EsperanceDeVie} semaines\n" +
+                $"- Production max : {ProductionMax}";
         }
 
         // Affichage synthétique de l'état de la plante
         public string AfficherResume()
         {
+            string etat = estMalade ? "❌ est Malade" : "✅ n'est pas Malade";
             return $"🌿 {Nom} | Taille : {Taille:F1} cm | Terrain : {TerrainAssocie?.Nom ?? "Aucun"}";
         }
 

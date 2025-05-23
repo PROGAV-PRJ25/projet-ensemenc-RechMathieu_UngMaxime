@@ -32,6 +32,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             if (VerifierSurvie(tauxConditionsFavorables)) // Verifie si conditions remplis pour que la plante soit vivante
             {
                 double croissance = VitesseCroissance * tauxConditionsFavorables;
+                if (estMalade) croissance *= 0.5; // Ralentissement croissance si malade
                 Taille += croissance;
                 Console.WriteLine($"La tomate a poussé, taille actuelle: {Taille} cm");
             }
@@ -41,21 +42,5 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             }
         }
 
-        public override void AttraperMaladie(Random rng)
-        {
-            if (MaladiesPotentielles.Count > 0)
-            {
-                double prob = rng.NextDouble();
-                if (prob < 0.2) // 1 chance sur 5 d'attraper une maladie -> on fera surement évolué le fonctionnement
-                {
-                    string maladieAttrapee = MaladiesPotentielles[rng.Next(MaladiesPotentielles.Count)];
-                    Console.WriteLine($"La tomate a attrapé : {maladieAttrapee} !");
-                }
-                else
-                {
-                    Console.WriteLine("La tomate est en bonne santé.");
-                }
-            }
-        }
     }
 }

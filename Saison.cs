@@ -66,6 +66,19 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             }
         }
 
+        public double GenererLuminosite()
+        {
+            switch (Nom)
+            {
+                case SaisonNom.Ete: return rng.Next(75, 100);    
+                case SaisonNom.Printemps: return rng.Next(60, 85);
+                case SaisonNom.Automne: return rng.Next(40, 70);
+                case SaisonNom.Hiver: return rng.Next(20, 50);   
+                default: return rng.Next(40, 80);
+            }
+        }
+
+
         public override string ToString()
         {
             return $"🗓️ Semaine {NumeroSemaine} - Saison : {Nom}";

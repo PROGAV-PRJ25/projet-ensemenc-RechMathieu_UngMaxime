@@ -26,17 +26,9 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
         public override void Pousser(double tauxConditionsFavorables)
         {
             double croissanceHebdo = VitesseCroissance * tauxConditionsFavorables;
+            if (estMalade) croissanceHebdo *= 0.5;
             Taille += croissanceHebdo;
             Console.WriteLine($"{Nom} a poussé de {croissanceHebdo:F1} cm cette semaine. Hauteur totale : {Taille:F1} cm.");
-        }
-
-        public override void AttraperMaladie(Random rng)
-        {
-            if (MaladiesPotentielles.Count > 0 && rng.NextDouble() < 0.15) // 15% de risque
-            {
-                string maladie = MaladiesPotentielles[rng.Next(MaladiesPotentielles.Count)];
-                Console.WriteLine($"⚠️ {Nom} a été infectée par : {maladie} !");
-            }
         }
 
         public override string ToString()
