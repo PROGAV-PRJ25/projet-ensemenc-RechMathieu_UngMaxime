@@ -301,6 +301,7 @@ namespace SimulateurPotager
             if (!nouvellePlante.SaisonsSemis.Contains(saisonActuelle))
             {
                 Console.WriteLine($"\n🚫 {nouvellePlante.Nom} ne peut être semée qu'en : {string.Join(", ", nouvellePlante.SaisonsSemis)}.");
+                nbActionsRestantes++;
                 return;
             }
 
@@ -327,6 +328,7 @@ namespace SimulateurPotager
             if (plantes.Count == 0)
             {
                 Console.WriteLine("Aucune plante à arroser.");
+                nbActionsRestantes++;
                 return;
             }
             Console.WriteLine("\nChoisissez la plante à arroser :");
@@ -351,6 +353,7 @@ namespace SimulateurPotager
             if (plantes.Count == 0)
             {
                 Console.WriteLine("Aucune plante à récolter.");
+                nbActionsRestantes++;
                 return;
             }
 
