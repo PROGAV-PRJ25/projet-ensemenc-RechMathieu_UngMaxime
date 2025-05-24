@@ -11,7 +11,7 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             nom: "Carotte",
             estVivace: false,
             estComestible: true,
-            saisonsSemis: new List<string> { "Printemps" },
+            saisonsSemis: new List<string> { "Printemps", "Ete", "Automne", "Hiver" },
             typeTerrainPrefere: "Sable",
             espacement: 10,
             surfaceNecessaire: 0.08,
