@@ -33,10 +33,6 @@ namespace SimulateurPotager
             bool continuer = true;
             while (continuer)
             {
-
-                double tirageRat = rng.NextDouble();
-                if (tirageRat < probaInvasionRat) InvasionRat();
-
                 if (nbActionsRestantes == 0)
                 {
                     Console.WriteLine("Vous avez épuisé toutes vos actions pour la semaine !\nPassage à la semaine suivante...");
@@ -100,6 +96,8 @@ namespace SimulateurPotager
                         goto choixAction;
                 }
                 nbActionsRestantes--;
+                double tirageRat = rng.NextDouble();
+                if (tirageRat < probaInvasionRat) InvasionRat();
             }
         }
 
