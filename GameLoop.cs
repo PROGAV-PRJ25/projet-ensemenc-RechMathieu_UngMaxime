@@ -126,6 +126,7 @@ namespace SimulateurPotager
                     else
                     {
                         plantes[victime].Grignoter(rng, bacheDeployee);
+                        if (plantes[victime].Taille == 0) plantes.RemoveAt(victime);
                     }
                 }
                 AfficherEtatPlantes();
