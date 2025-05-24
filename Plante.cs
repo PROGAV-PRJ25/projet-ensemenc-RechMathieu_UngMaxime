@@ -149,6 +149,21 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             return tauxConditionsRespectees >= 0.5;
         }
 
+        public void Grignoter(Random rng, int bacheDeployee)
+        {
+            if (estComestible)
+            {
+                double tailleAvant = Taille;
+                double degats = Math.Max(rng.NextDouble() * 2.0 - bacheDeployee, 0);
+                Taille = Math.Max(Taille - degats, 0);
+                Console.WriteLine($"{Nom} a été grignotée ! Elle a perdu {tailleAvant - Taille:F1} cm...");
+            }
+            else
+            {
+                Console.WriteLine($"{Nom} n'est pas comestible, elle a résisté à la visite du rat !");
+            }
+        }
+
 
         // Affichage détaillée des propriétés du type de plante
         public string AfficherProprietes()

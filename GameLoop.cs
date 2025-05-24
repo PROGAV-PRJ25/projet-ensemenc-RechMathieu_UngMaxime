@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using projet_ensemenc_RechMathieu_UngMaxime;
 
@@ -10,10 +11,12 @@ namespace SimulateurPotager
         private List<Plante> plantes; // Les plantes en jeu
         private int semaine;
         private int nbActionsRestantes = 5;
+        private double probaInvasionRat = 0.05; // 5% de chances au départ de se faire envahir par tour
         private Random rng;
         private List<int> semainesPlantation = new List<int>(); // Age des plantes semées
         private List<string> nomsPlantesRecoltees = new List<string>();
         private List<int> quantitesRecoltees = new List<int>(); 
+        private List<int> plantesProtegeesDansSerre = new List<int>();
 
         public Game()
         {
@@ -30,6 +33,10 @@ namespace SimulateurPotager
             bool continuer = true;
             while (continuer)
             {
+
+                double tirageRat = rng.NextDouble();
+                if (tirageRat < probaInvasionRat) InvasionRat();
+
                 if (nbActionsRestantes == 0)
                 {
                     Console.WriteLine("Vous avez épuisé toutes vos actions pour la semaine !\nPassage à la semaine suivante...");
@@ -92,10 +99,128 @@ namespace SimulateurPotager
                         Console.ForegroundColor = ConsoleColor.White;
                         goto choixAction;
                 }
+                nbActionsRestantes--;
             }
         }
 
-        private int AgePlante(int index)
+        private void InvasionRat()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n⚠⚠ ALERTE !! ⚠⚠\nUn RAT s'est infiltré dans votre potager ! Il commence à ronger vos plantes !");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            bool ratPresent = true;
+            int toursRat = 0;
+            int bacheDeployee = 0;
+
+            while (ratPresent && toursRat < 3)
+            {
+                Console.WriteLine($"\n🐀 Le rat rôde dans le jardin... (Tour {toursRat + 1}/3)");
+
+                if (plantes.Count > 0)
+                {
+                    int victime = rng.Next(plantes.Count);
+                    if (plantesProtegeesDansSerre.Contains(victime))
+                    {
+                        Console.WriteLine($"🛡️ {plantes[victime].Nom} est à l’abri dans la serre !\nLe rat n'a pas pu la grignoter.");
+                    }
+                    else
+                    {
+                        plantes[victime].Grignoter(rng, bacheDeployee);
+                    }
+                }
+                AfficherEtatPlantes();
+                plantesProtegeesDansSerre.Clear();
+                bacheDeployee = 0;
+
+                Console.WriteLine("\nActions d’urgence possibles :");
+                Console.WriteLine("1. Faire du bruit (peut effrayer le rat)");
+                Console.WriteLine("2. Fermer la serre (protection temporaire de certaines plantes)");
+                Console.WriteLine("3. Déployer une bâche (rend toutes les plantes plus difficiles à grignoter)");
+                Console.WriteLine("4. Installer un épouvantail (retarde la prochaine invasion)");
+                Console.WriteLine("👉 Choisissez une action d’urgence : ");
+                ConsoleKeyInfo action = Console.ReadKey();
+                Console.WriteLine();
+
+                switch (action.KeyChar)
+                {
+                    case '1':
+                        if (rng.NextDouble() > 0.7)
+                        {
+                            Console.WriteLine("🔊 Vous avez fait du bruit ! Le rat s’est enfui !");
+                            ratPresent = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("😐 Le rat n’est pas impressionné...");
+                        }
+                        break;
+
+                    case '2':
+                        if (plantes.Count == 0)
+                        {
+                            Console.WriteLine("🚪 Serre fermée, mais aucune plante à protéger.");
+                            break;
+                        }
+
+                        Console.WriteLine("🏡 Vous pouvez mettre 2 plantes à l’abri dans la serre.");
+                        List<int> indexProteges = new List<int>();
+
+                        for (int i = 0; i < 2 && i < plantes.Count; i++)
+                        {
+                            Console.WriteLine("\nSélectionnez la plante à protéger :");
+                            for (int j = 0; j < plantes.Count; j++)
+                            {
+                                if (!indexProteges.Contains(j))
+                                    Console.WriteLine($"{j + 1}. {plantes[j].Nom} ({plantes[j].Taille:F1} cm)");
+                            }
+
+                            Console.Write("> ");
+                            if (int.TryParse(Console.ReadLine(), out int choix) && choix > 0 && choix <= plantes.Count && !indexProteges.Contains(choix - 1))
+                            {
+                                indexProteges.Add(choix - 1);
+                                Console.WriteLine($"✅ {plantes[choix - 1].Nom} est protégée dans la serre.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("❌ Choix invalide ou plante déjà protégée.");
+                                i--; // Retenter ce tour
+                            }
+                        }
+
+                        // Enregistrer les plantes protégées dans cette itération
+                        plantesProtegeesDansSerre = indexProteges;
+                        break;
+
+
+                    case '3':
+                        Console.WriteLine("🛡️ La bâche limite les dégâts pour ce tour.");
+                        bacheDeployee = 1;
+                        break;
+
+                    case '4':
+                        Console.WriteLine("🎭 Vous installez un épouvantail ! Moins de risques à l’avenir.");
+                        probaInvasionRat -= rng.NextDouble() * 0.02;
+                        if (probaInvasionRat < 0)
+                        {
+                            probaInvasionRat = 0;
+                            Console.WriteLine("Félicitations ! Votre jardin est devenu tellement terrifiant que plus aucun rongeur n'osera s'y aventurer !");
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("❌ Action non reconnue. Le rat en profite !");
+                        break;
+                }
+
+                toursRat++;
+            }
+
+            Console.WriteLine("✅ Fin de l’invasion de rats (pour cette fois). Restez vigilant !");
+        }
+
+
+            private int AgePlante(int index)
         { return semaine - semainesPlantation[index]; }
 
         private void AfficherEtatPlantes()
@@ -288,7 +413,7 @@ namespace SimulateurPotager
                 if (plante.Taille > tailleAvant)
                     Console.WriteLine($"→ {plante.Nom} a grandi de {plante.Taille - tailleAvant:F1} cm.");
 
-                if (!plante.VerifierSurvie(tauxConditions))
+                if (!plante.VerifierSurvie(tauxConditions) || AgePlante(plantes.IndexOf(plante)) == plante.EsperanceDeVie)
                 {
                     Console.WriteLine($"💀 La plante {plante.Nom} est morte cette semaine.");
                     plantes.Remove(plante);
