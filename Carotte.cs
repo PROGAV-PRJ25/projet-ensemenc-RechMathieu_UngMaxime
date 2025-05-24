@@ -17,8 +17,8 @@ namespace projet_ensemenc_RechMathieu_UngMaxime
             surfaceNecessaire: 0.08,
             vitesseCroissance: 1.2,
             besoinEau: 1.0,
-            besoinLuminosite: 60,
-            plageTemperature: Tuple.Create(10.0, 24.0),
+            besoinLuminosite: 20,
+            plageTemperature: Tuple.Create(0.0, 24.0),
             maladiesPotentielles: new List<string> { "Alternariose" },
             esperanceDeVie: 9,
             productionMax: 6
