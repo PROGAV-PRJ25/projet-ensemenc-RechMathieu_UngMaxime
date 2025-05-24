@@ -245,9 +245,9 @@ namespace SimulateurPotager
             Console.WriteLine("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate\n3) : Aubergine\n4) : Carotte\n5) : Courgette\n6) : Fraise\n7) : Laitue\n8) : Lavande\n9) : Menthe\n10) : Radis\n11) : Rose\n12) : Tournesol");
             while (true)
             {
-                ConsoleKeyInfo entree = Console.ReadKey();
+                string entree = Console.ReadLine()!;
                 Console.WriteLine();
-                switch (entree.KeyChar.ToString())
+                switch (entree)
                 {
                     case "1": Console.WriteLine("🌷 Tulipe choisie."); return new Tulipe();
                     case "2": Console.WriteLine("🍅 Tomate choisie."); return new Tomate();
