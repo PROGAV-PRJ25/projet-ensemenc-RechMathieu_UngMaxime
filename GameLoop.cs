@@ -138,6 +138,7 @@ namespace SimulateurPotager
                 Console.WriteLine("2. Fermer la serre (protection temporaire de certaines plantes)");
                 Console.WriteLine("3. Déployer une bâche (rend toutes les plantes plus difficiles à grignoter)");
                 Console.WriteLine("4. Installer un épouvantail (retarde la prochaine invasion)");
+                Console.WriteLine("5. ☣ Terre brûlée ☣ : exterminez l'envahisseur au prix de vos plantations (il le mérite)");
                 Console.WriteLine("👉 Choisissez une action d’urgence : ");
                 ConsoleKeyInfo action = Console.ReadKey();
                 Console.WriteLine();
@@ -206,6 +207,10 @@ namespace SimulateurPotager
                             probaInvasionRat = 0;
                             Console.WriteLine("Félicitations ! Votre jardin est devenu tellement terrifiant que plus aucun rongeur n'osera s'y aventurer !");
                         }
+                        break;
+                    case '5':
+                        Console.WriteLine("...🤨 Aucune maltraitance animale chez nous, votre identité a été signalée aux associations concernées.");
+                        Console.WriteLine("Vous êtes également privé d'action 😤");
                         break;
 
                     default:
