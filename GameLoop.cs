@@ -21,7 +21,7 @@ namespace SimulateurPotager
         public Game()
         {
             plantes = new List<Plante>();
-            semaine = 1;
+            semaine = 0;
             rng = new Random();
         }
 
@@ -29,6 +29,7 @@ namespace SimulateurPotager
         {
             Console.WriteLine("Bienvenue dans le simulateur de potager ENSemenC !");
             Console.WriteLine("Simulation de votre potager en cours...\n");
+            SimulerSemaine();
 
             bool continuer = true;
             while (continuer)
