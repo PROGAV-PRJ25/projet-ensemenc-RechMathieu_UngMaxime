@@ -8,12 +8,12 @@ namespace SimulateurPotager
 {
     public class Game
     {
-        private List<Plante> plantes; // Les plantes en jeu
+        private List<Plante> plantes = new List<Plante>(); // Les plantes en jeu
         private int semaine;
         private int nbActionsRestantes = 5;
         private double probaInvasionRat = 0.05; // 5% de chances au départ de se faire envahir par tour
         private Random rng;
-        private List<int> semainesPlantation = new List<int>(); // Age des plantes semées
+        private List<int> semainesPlantation = new List<int>(); // Semaine de naissance pour calculer l'âge
         private List<string> nomsPlantesRecoltees = new List<string>();
         private List<int> quantitesRecoltees = new List<int>(); 
         private List<int> plantesProtegeesDansSerre = new List<int>();
