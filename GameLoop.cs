@@ -82,7 +82,6 @@ namespace SimulateurPotager
                         RecolterPlantes();
                         break;
                     case 4:
-                        semaine++;
                         nbActionsRestantes = 5;
                         SimulerSemaine();
                         break;
@@ -398,6 +397,7 @@ namespace SimulateurPotager
 
         private void SimulerSemaine()
         {
+            semaine++;
             // Determination saison et Météo
             Saison saison = new Saison(semaine, rng);
             double temperature = saison.GenererTemperature();
