@@ -55,7 +55,7 @@ namespace SimulateurPotager
                 Console.WriteLine("5. Quitter le jeu");
 
             choixAction:
-                Console.Write("Choisissez une action : ");
+                Console.WriteLine("Choisissez une action : ");
                 ConsoleKeyInfo entree = Console.ReadKey()!;
                 int choix;
                 if (char.IsDigit(entree.KeyChar))
@@ -125,7 +125,12 @@ namespace SimulateurPotager
                     else
                     {
                         plantes[victime].Grignoter(rng, bacheDeployee);
-                        if (plantes[victime].Taille == 0) plantes.RemoveAt(victime);
+                        if (plantes[victime].Taille == 0)
+                        {
+                            plantes.RemoveAt(victime);
+                            semainesPlantation.RemoveAt(victime); // 🔧 Correction essentielle
+                        }
+
                     }
                 }
                 AfficherEtatPlantes();
@@ -243,7 +248,7 @@ namespace SimulateurPotager
 
         private Plante ChoisirPlante()
         {
-            Console.WriteLine("Quelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate\n3) : Aubergine\n4) : Carotte\n5) : Courgette\n6) : Fraise\n7) : Laitue\n8) : Lavande\n9) : Menthe\n10) : Radis\n11) : Rose\n12) : Tournesol");
+            Console.WriteLine("\nQuelle plante voulez-vous semer ? :\n1) : Tulipe\n2) : Tomate\n3) : Aubergine\n4) : Carotte\n5) : Courgette\n6) : Fraise\n7) : Laitue\n8) : Lavande\n9) : Menthe\n10) : Radis\n11) : Rose\n12) : Tournesol");
             while (true)
             {
                 string entree = Console.ReadLine()!;
@@ -424,7 +429,11 @@ namespace SimulateurPotager
                 if (!plante.VerifierSurvie(tauxConditions) || AgePlante(plantes.IndexOf(plante)) == plante.EsperanceDeVie)
                 {
                     Console.WriteLine($"💀 La plante {plante.Nom} est morte cette semaine.");
-                    plantes.Remove(plante);
+                    int index = plantes.IndexOf(plante);
+                    plantes.RemoveAt(index);
+                    semainesPlantation.RemoveAt(index);
+
+
                 }
             }
         }
